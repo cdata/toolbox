@@ -1,0 +1,33 @@
+{
+  "name": "@0xcda7a/bag-of-tricks",
+  "version": "0.0.1",
+  "description": "My personal library of patterns and tools for modern web development",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "cd ./dist && ../node_modules/.bin/http-server -a 127.0.0.1 -c-1 -o",
+    "clean": "rm -rf ./dist ./lib",
+    "build": "npm run build:tsc && npm run build:rollup",
+    "build:tsc": "tsc --incremental",
+    "build:rollup": "rollup -c",
+    "watch:tsc": "tsc -w --incremental",
+    "watch:rollup": "rollup -c -w",
+    "dev": "npm run build && npm-run-all --parallel 'watch:tsc -- --preserveWatchOutput' watch:rollup serve"
+  },
+  "author": "Chris Joel <0xcda7a@gmail.com>",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "@rollup/plugin-replace": "^2.3.3",
+    "chokidar-cli": "^2.1.0",
+    "clean-css-cli": "^4.3.0",
+    "http-server": "^0.12.3",
+    "npm-run-all": "^4.1.5",
+    "rollup": "^2.26.11",
+    "rollup-plugin-sourcemaps": "^0.6.2",
+    "rollup-plugin-terser": "^7.0.2",
+    "typescript": "^4.0.0"
+  },
+  "dependencies": {
+    "reselect": "^4.0.0"
+  }
+}
