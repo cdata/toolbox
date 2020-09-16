@@ -1,6 +1,6 @@
 {
   "name": "@0xcda7a/bag-of-tricks",
-  "version": "0.0.1",
+  "version": "0.0.2-alpha.1",
   "description": "My personal library of patterns and tools for modern web development",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,6 +13,12 @@
     "watch:rollup": "rollup -c -w",
     "dev": "npm run build && npm-run-all --parallel 'watch:tsc -- --preserveWatchOutput' watch:rollup serve"
   },
+  "files": [
+    "/lib/",
+    "/src/",
+    "/dist/"
+  ],
+  "main": "/dist/index.js",
   "author": "Chris Joel <0xcda7a@gmail.com>",
   "license": "BSD-3-Clause",
   "devDependencies": {
