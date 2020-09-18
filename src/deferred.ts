@@ -1,3 +1,10 @@
+/**
+ * A Deferred is like an inside-out Promise. Instead of passing a
+ * function to the constructor that receives resolve and reject callbacks,
+ * a deferred has the resolve and reject callbacks and their associated
+ * promise as public properties on the instance. A Deferred is not a
+ * then-able; you must still use the promise for then-related purposes.
+ */
 export class Deferred<T> {
   #resolve: (value?: T | PromiseLike<T> | undefined) => void = () => {};
   #reject: (reason?: any) => void = () => {};

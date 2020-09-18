@@ -18,6 +18,15 @@ const selectPath = <T>(...path: string[]) => (state: unknown) => {
 export const select = <U>(...path: string[]) =>
   createSelector(selectPath<U>(...path), (result) => result);
 
+/**
+ * This is a decorator intended to be used in conjunction with a "connected"
+ * element (a custom element extended with the connect mixin).
+ *
+ * The decorator takes a function that receives state and reduces it to some
+ * subset of the input. The function is invoked whenever state changes in a
+ * meaningful way. This is handy for binding sub-state to LitElement properties
+ * in a psuedo-declarative fashion.
+ */
 export const selector = <T extends {}, U = unknown>(
   selector: Selector<T, U>
 ) => (target: ConnectedInterface<T>, property: string) => {
