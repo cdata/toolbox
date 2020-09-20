@@ -1,7 +1,7 @@
 export type Action<T extends {}> = (
   getState: GetState<T>,
   dispatch: Dispatch<T>
-) => T | Promise<T> | void | Promise<void>;
+) => T | void | Promise<T | void>;
 export type Dispatch<T extends {} = {}> = (action: Action<T>) => Promise<void>;
 export type GetState<T extends {} = {}> = () => T;
 export type ActionCreator<T extends {}, U extends readonly any[]> = (
