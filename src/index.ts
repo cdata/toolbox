@@ -1,4 +1,6 @@
-export * from './deferred.js';
+export * from './async/deferred.js';
+export * from './async/event.js';
+export * from './async/time.js';
 export * from './types.js';
 export * from './random.js';
 export * from './state/connect.js';
