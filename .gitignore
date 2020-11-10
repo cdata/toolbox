@@ -1,1 +1,4 @@
 smoke.ts
+node_modules
+dist
+lib

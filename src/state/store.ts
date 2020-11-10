@@ -19,8 +19,16 @@ export type SelfDispatchingActionCreator<T extends any[]> = (
 
 export type Middleware<T extends {}> = (store: Store<T>) => Store<T>;
 
+const defaultLogger = (actionName: string, state: any) =>
+  console.warn(`Action<${actionName}>`, state);
+
 export interface StoreOptions<T extends {}> {
   verbose?: boolean;
+  logger?: (
+    logger: (...args: any) => void,
+    actionName: string,
+    state: T
+  ) => void;
   middleware?: Middleware<T>[];
 }
 
@@ -41,13 +49,22 @@ export const isNamedAction = <T extends {}>(
 export class Store<T extends {} = {}> extends EventTarget {
   #state: T;
   #verbose: boolean;
+  #logger: (actionName: string, state: T) => void;
 
   constructor(initialState: T, options: StoreOptions<T> = {}) {
     super();
+
     this.#state = initialState;
     this.#verbose = !!options.verbose;
 
-    const { middleware } = options;
+    const { logger, middleware } = options;
+
+    this.#logger =
+      logger != null
+        ? (actionName: string, state: T) =>
+            logger(defaultLogger, actionName, state)
+        : defaultLogger;
+
     let store: Store<T> = this;
 
     if (middleware != null) {
@@ -75,7 +92,7 @@ export class Store<T extends {} = {}> extends EventTarget {
 
     if (this.#verbose) {
       const name = isNamedAction(action) ? action[$name] : 'ANONYMOUS';
-      console.warn(`Action<${name}>`, newState);
+      this.#logger(name, newState);
     }
 
     this.#state = newState;

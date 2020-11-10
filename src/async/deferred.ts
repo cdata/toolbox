@@ -5,7 +5,7 @@
  * promise as public properties on the instance. A Deferred is not a
  * then-able; you must still use the promise for then-related purposes.
  */
-export class Deferred<T> {
+export class Deferred<T = void> {
   #resolve: (value?: T | PromiseLike<T> | undefined) => void = () => {};
   #reject: (reason?: any) => void = () => {};
   #promise: Promise<T>;

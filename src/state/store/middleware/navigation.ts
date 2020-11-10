@@ -28,7 +28,7 @@ export const navigate = <T extends NavigationState>(
   url: string,
   options?: NavigateOptions
 ): Action<T> =>
-  action('navigate', (getState) => {
+  action('NAVIGATE', (_getState, dispatch) => {
     const redirect = options?.redirect || false;
     const title = options?.title || self.document.title;
 
@@ -38,8 +38,14 @@ export const navigate = <T extends NavigationState>(
       self.history.pushState(null, title, url);
     }
 
+    dispatch(syncLocation());
+  });
+
+export const syncLocation = <T extends NavigationState>(): Action<T> =>
+  action('SYNC_LOCATION', (getState) => {
+    const state = getState();
     return {
-      ...getState(),
+      ...state,
       location: getLocation(),
     };
   });
@@ -48,6 +54,10 @@ export const navigation = <T extends NavigationState>(
   store: Store<T>
 ): Store<T> => {
   const origin = self.location.origin;
+
+  self.addEventListener('popstate', () => {
+    store.dispatch(syncLocation());
+  });
 
   self.addEventListener(
     'click',
