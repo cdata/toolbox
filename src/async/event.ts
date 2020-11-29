@@ -1,14 +1,17 @@
+export type EventPredicate<T extends Event> = (event: T) => boolean;
+
 export const nextEvent = <T extends Event>(
-  target: EventTarget,
-  type: string
-): Promise<T> => {
+    target: EventTarget,
+    type: string,
+    predicate: EventPredicate<T> = () => true): Promise<T> => {
   return new Promise<T>((resolve) => {
-    target.addEventListener(
-      type,
-      (event: unknown) => {
+    let handleEvent = (event: unknown) => {
+      if (predicate(event as T)) {
+        target.removeEventListener(type, handleEvent);
         resolve(event as T);
-      },
-      { once: true }
-    );
+      }
+    };
+
+    target.addEventListener(type, handleEvent);
   });
 };
