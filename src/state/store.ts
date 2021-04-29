@@ -7,6 +7,7 @@ export type GetState<T extends {} = {}> = () => T;
 export type ActionCreator<T extends {}, U extends readonly any[]> = (
   ...args: U
 ) => Action<T>;
+export type Reducer<T extends {}> = (state: T) => T;
 
 export const $name = Symbol('name');
 export type NamedAction<T extends {}> = Action<T> & {
@@ -30,6 +31,7 @@ export interface StoreOptions<T extends {}> {
     state: T
   ) => void;
   middleware?: Middleware<T>[];
+  reducers?: Reducer<T>[];
 }
 
 export const action = <T extends {}>(
@@ -50,12 +52,20 @@ export class Store<T extends {} = {}> extends EventTarget {
   #state: T;
   #verbose: boolean;
   #logger: (actionName: string, state: T) => void;
+  #reducers: Reducer<T>[];
+
+  #reduce = (state: T): T => {
+    for (const reducer of this.#reducers) {
+      state = reducer(state);
+    }
+    return state;
+  };
 
   constructor(initialState: T, options: StoreOptions<T> = {}) {
     super();
 
-    this.#state = initialState;
     this.#verbose = !!options.verbose;
+    this.#reducers = options.reducers || [];
 
     const { logger, middleware } = options;
 
@@ -64,6 +74,8 @@ export class Store<T extends {} = {}> extends EventTarget {
         ? (actionName: string, state: T) =>
             logger(defaultLogger, actionName, state)
         : defaultLogger;
+
+    this.#state = this.#reduce(initialState);
 
     let store: Store<T> = this;
 
@@ -81,7 +93,7 @@ export class Store<T extends {} = {}> extends EventTarget {
   }
 
   async dispatch(action: Action<T>): Promise<void> {
-    const newState = await action(
+    let newState = await action(
       () => this.state,
       (action: Action<T>) => this.dispatch(action)
     );
@@ -89,6 +101,8 @@ export class Store<T extends {} = {}> extends EventTarget {
     if (newState == null) {
       return;
     }
+
+    newState = this.#reduce(newState);
 
     if (this.#verbose) {
       const name = isNamedAction(action) ? action[$name] : 'ANONYMOUS';
