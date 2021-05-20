@@ -9,3 +9,4 @@ export * from './state/decorators/select.js';
 export * from './state/store.js';
 export * from './state/types.js';
 export * from './state/store/middleware/navigation.js';
+export * from './state/store/middleware/reaction.js';

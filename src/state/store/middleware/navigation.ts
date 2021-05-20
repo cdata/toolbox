@@ -42,7 +42,7 @@ export const navigate = <T extends NavigationState>(
   });
 
 export const syncLocation = <T extends NavigationState>(): Action<T> =>
-  action('SYNC_LOCATION', (getState) => {
+  action('SYNCHRONIZE_LOCATION', (getState) => {
     const state = getState();
     return {
       ...state,
