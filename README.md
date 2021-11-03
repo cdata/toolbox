@@ -2,12 +2,12 @@
 
 This is a standard library of sorts that I use for personal projects and demos.
 
-The "bag" contains common patterns and tools for state management that I find
+The "box" contains common patterns and tools for state management that I find
 myself writing repeatedly. The general emphasis of this library is to offer
 feather-weight patterns that support using the best of modern app-building
 patterns on the web.
 
-Some of the "tricks" have better-known, better-tested and/or better-featured
+Some of the "tools" have better-known, better-tested and/or better-featured
 alternatives. It is usually safe to assume that if some code makes its way here,
 it is because one or more of the following things was true at the time it was
 added:
@@ -20,7 +20,7 @@ added:
 In some cases there is also the most time honored of reasons for some code to be
 here: because I felt like writing it myself 🖖
 
-## Warning: pre-alpha status
+## Warning: perennially pre-alpha status
 
 Currently offered without tests, docs or any guarantee of API stability. GLHF!
 
