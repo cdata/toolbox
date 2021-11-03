@@ -1,4 +1,4 @@
-## cdata's "Bag of Tricks"
+## cdata's toolbox
 
 This is a standard library of sorts that I use for personal projects and demos.
 
